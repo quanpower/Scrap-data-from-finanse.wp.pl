@@ -13,4 +13,5 @@ TODO:
 - fix the code to make it reusable and clear. The scraper should be easily adapted to be used on other financial websites.
 - translate comments to english
 - add the code done with sentdex pattern recognition series and adapt it to this data.
+- GUI
 - ...
