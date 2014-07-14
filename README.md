@@ -15,3 +15,5 @@ TODO:
 - add the code done with sentdex pattern recognition series and adapt it to this data.
 - GUI
 - ...
+
+I'd be happy to cooperate on this project. 
