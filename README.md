@@ -1,4 +1,4 @@
-Scrap-data-from-finanse.wp.pl
+Simple Python Stock Analysis Tool (for Polish GPW)
 =============================
 
 Python script, which gets stocks data from finanse.wp.pl and draws a chart with matplotlib. Based on sentdex tutorial series (http://www.youtube.com/watch?v=u6Xd3kRHhJI), adapted to polish stock market.
