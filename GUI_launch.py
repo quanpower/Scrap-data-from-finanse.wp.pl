@@ -15,7 +15,10 @@ def select():
 	# wywolanie wykresu dla danego codeAr
 	index = nameAr.index(var.get())
 	stock_id = codeAr[index]
-	graphData(stock_id, 20, 200)
+	try:
+		graphData(stock_id, 20, 200)
+	except Exception as e:
+		print 'Something went wrong.\nError details: ', e
 
 root = tk.Tk()
 # use width x height + x_offset + y_offset (no spaces!)
