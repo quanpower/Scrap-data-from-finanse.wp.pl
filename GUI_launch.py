@@ -1,5 +1,6 @@
 import Tkinter as tk
 import csv
+from finanse_wp import *
 
 nameAr = []
 codeAr = []
@@ -12,7 +13,9 @@ with open('stocks.csv', 'r') as csvfile:
 
 def select():
 	# wywolanie wykresu dla danego codeAr
-	print 'nothing yet'
+	index = nameAr.index(var.get())
+	stock_id = codeAr[index]
+	graphData(stock_id, 20, 200)
 
 root = tk.Tk()
 # use width x height + x_offset + y_offset (no spaces!)
@@ -26,7 +29,6 @@ var.set('Pick a stock')
 choices = nameAr
 option = tk.OptionMenu(root, var, *choices)
 option.pack(side='left', padx=10, pady=10)
-
 button = tk.Button(root, text="Draw a chart!", command=select)
 button.pack(side='right', padx=20, pady=10)
 

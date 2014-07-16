@@ -199,7 +199,7 @@ def graphData(stock, MA1, MA2):
 	plt.show()
 
 ''' Rysowanie '''
-while True:
-    stockToUse = raw_input('Podaj ID zgodnie z specyfikacja finanse.wp.pl: ')
-    graphData(stockToUse, 20, 200)
+#while True:
+#    stockToUse = raw_input('Podaj ID zgodnie z specyfikacja finanse.wp.pl: ')
+#    graphData(stockToUse, 20, 200)
 
