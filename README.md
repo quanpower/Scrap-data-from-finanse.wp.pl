@@ -13,7 +13,7 @@ TODO:
 - fix the code to make it reusable and clear. The scraper should be easily adapted to be used on other financial websites.
 - translate comments to english
 - add the code done with sentdex pattern recognition series and adapt it to this data.
-- GUI
+- enchance GUI - add some parameters to allow some changes in graphs.
 - ...
 
-I'd be happy to cooperate on this project. 
+I'd be happy to cooperate on this project. PM me if you're interested. 
