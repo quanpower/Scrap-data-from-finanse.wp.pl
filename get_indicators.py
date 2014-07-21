@@ -7,14 +7,18 @@ from bs4 import BeautifulSoup
 
 try:
 	os.remove('indicators.csv')
+	print 'Old file removed.'
 except Exception:
 	pass
+
 stock_ids = []
+stock_names = []
 with open('stocks.csv', 'r') as csv_file:
 	try:
 		read_csv = csv.reader(csv_file, delimiter=',')
 		for line in read_csv:
 			stock_ids.append(line[1])
+			stock_names.append(line[0])
 	except:
 		print 'failed'
 
@@ -27,7 +31,7 @@ for name in stock_ids:
 		soup = BeautifulSoup(data)
 		print name, 'URL captured. Parsing...'
 	except Exception, err:
-		print 'Could not connect to URL', e
+		print 'Could not connect to URL', err
 	try:
 		for ul in soup.find_all("ul", { "class" : "zmiany" }):
 			zmiany_raw = ul.get_text().encode('utf-8').replace(",",".").replace('%','').replace('+','')
@@ -39,7 +43,7 @@ for name in stock_ids:
 			r3 = zmiany_raw.split('\n')[7].split(': ')[1]
 			print t1, m1, m3, m6, r1, r3, '(%)'
 
-			if t1 == '0.00':
+			if t1 == '0.00' or m1 == '0.00':
 				print 'No time % change. Skipping...'
 				skip = True
 		if not skip:		
@@ -56,16 +60,21 @@ for name in stock_ids:
 			for elem in soup(text=re.compile(r'Kapitalizacja')):
 				kapitalizacja = elem.parent.encode('utf-8').replace('<div>', '').replace('</div>', '').replace(' ','').split('m')[0].split(':')[1].replace(',', '.')
 				print 'Kapitalizacja:', kapitalizacja, '(mln PLN)'
+
+			if cz and cwk and cebitda == '-':
+					print 'No indicators. Skipping...'
+					skip = True
+			else:
+				print 'Row seems ok. Writing...'
+
 	except Exception as e:
 		print 'sth went wrong during parsing text.', e
 
-	if cz and cwk and cebitda == '-':
-		print 'No indicators. Skipping...'
-	print 'URL parsed.'
-	time.sleep(0.3)
+	print 'Done', stock_ids.index(name)*100/len(stock_ids),'%'
+	time.sleep(0.2)
+
 	if not skip:
-		with open('indicators.csv', 'a') as indicators:
+		with open('indicators.csv', 'ab') as indicators:
 			writer = csv.writer(indicators, delimiter=";")
 			#writer.writerow("name; 1t; 1m; 3m; 6m; 1r; 3r; cz; cwk; cebitda; kapitalizacja")
-			writer.writerow([name, t1, m1, m3, m6, r1, r3, cz, cwk, cebitda, kapitalizacja])
-			print 'Row saved. Success'
+			writer.writerow([stock_names[stock_ids.index(name)], t1, m1, m3, m6, r1, r3, cz, cwk, cebitda, kapitalizacja])
