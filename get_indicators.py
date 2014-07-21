@@ -20,6 +20,7 @@ with open('stocks.csv', 'r') as csv_file:
 
 for name in stock_ids:
 	try:
+		skip = False
 		url_base = 'http://finanse.wp.pl/isin,'+name+',notowania-podsumowanie.html'
 		r = requests.get(url_base)
 		data = r.text
@@ -37,26 +38,34 @@ for name in stock_ids:
 			r1 = zmiany_raw.split('\n')[6].split(': ')[1]
 			r3 = zmiany_raw.split('\n')[7].split(': ')[1]
 			print t1, m1, m3, m6, r1, r3, '(%)'
-		for elem in soup(text=re.compile(r'C/Z')):
-			cz = elem.parent.parent.get_text().replace(' ','').replace(',','.').split(':')[1]
-			print 'Cena / Zysk', cz
-		for elem in soup(text=re.compile(r'C/Wk')):
-			print elem.parent.parent.get_text()
-			cwk = elem.parent.parent.get_text().replace(' ','').replace(',','.').split(':')[1]
-			print 'Cena / Wartosc ksiegowa:', cwk
-		for elem in soup(text=re.compile(r'C/EBITDA')):
-			cebitda = elem.parent.parent.get_text().replace(' ','').replace(',','.').split(':')[1]
-			print 'Cena / EBITDA:', cebitda
-		for elem in soup(text=re.compile(r'Kapitalizacja')):
-			kapitalizacja = elem.parent.encode('utf-8').replace('<div>', '').replace('</div>', '').replace(' ','').split('m')[0].split(':')[1].replace(',', '.')
-			print 'Kapitalizacja:', kapitalizacja, '(mln PLN)'
+
+			if t1 == '0.00':
+				print 'No time % change. Skipping...'
+				skip = True
+		if not skip:		
+			for elem in soup(text=re.compile(r'C/Z')):
+				cz = elem.parent.parent.get_text().replace(' ','').replace(',','.').split(':')[1]
+				print 'Cena / Zysk', cz
+			for elem in soup(text=re.compile(r'C/Wk')):
+				print elem.parent.parent.get_text()
+				cwk = elem.parent.parent.get_text().replace(' ','').replace(',','.').split(':')[1]
+				print 'Cena / Wartosc ksiegowa:', cwk
+			for elem in soup(text=re.compile(r'C/EBITDA')):
+				cebitda = elem.parent.parent.get_text().replace(' ','').replace(',','.').split(':')[1]
+				print 'Cena / EBITDA:', cebitda
+			for elem in soup(text=re.compile(r'Kapitalizacja')):
+				kapitalizacja = elem.parent.encode('utf-8').replace('<div>', '').replace('</div>', '').replace(' ','').split('m')[0].split(':')[1].replace(',', '.')
+				print 'Kapitalizacja:', kapitalizacja, '(mln PLN)'
 	except Exception as e:
 		print 'sth went wrong during parsing text.', e
 
+	if cz and cwk and cebitda == '-':
+		print 'No indicators. Skipping...'
 	print 'URL parsed.'
-	time.sleep(0.5)
-	with open('indicators.csv', 'a') as indicators:
-		writer = csv.writer(indicators, delimiter=";")
-		#writer.writerow("name; 1t; 1m; 3m; 6m; 1r; 3r; cz; cwk; cebitda; kapitalizacja")
-		writer.writerow([name, t1, m1, m3, m6, r1, r3, cz, cwk, cebitda, kapitalizacja])
-		print 'Row saved. Success'
+	time.sleep(0.3)
+	if not skip:
+		with open('indicators.csv', 'a') as indicators:
+			writer = csv.writer(indicators, delimiter=";")
+			#writer.writerow("name; 1t; 1m; 3m; 6m; 1r; 3r; cz; cwk; cebitda; kapitalizacja")
+			writer.writerow([name, t1, m1, m3, m6, r1, r3, cz, cwk, cebitda, kapitalizacja])
+			print 'Row saved. Success'
