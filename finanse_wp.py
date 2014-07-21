@@ -1,6 +1,8 @@
-# link do XML'a z nazwami : http://finanse.wp.pl/isin,PLOPTTC00011,stocks.xml
-#
-#
+''' 
+Program logic.
+Drawing a chart.
+link do XML'a z nazwami : http://finanse.wp.pl/isin,PLOPTTC00011,stocks.xml
+'''
 from xml.dom import minidom
 import urllib2
 import time

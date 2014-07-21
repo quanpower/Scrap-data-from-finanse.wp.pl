@@ -1,3 +1,7 @@
+'''
+Download a list of all papers/stocks on finanse.wp.pl. 
+Output stocks.csv
+'''
 from xml.dom import minidom
 import urllib2
 import csv

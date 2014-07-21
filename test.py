@@ -1,3 +1,7 @@
+'''
+May be changed into another version of GUI
+'''
+
 from Tkinter import *
 import csv
 
