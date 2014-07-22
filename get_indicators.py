@@ -4,23 +4,15 @@ import re
 import os
 import time
 from bs4 import BeautifulSoup
+import download_names_wp 
+
+stock_names, stock_ids = download_names_wp.downloadNames()
 
 try:
 	os.remove('indicators.csv')
 	print 'Old file removed.'
 except Exception:
 	pass
-
-stock_ids = []
-stock_names = []
-with open('stocks.csv', 'r') as csv_file:
-	try:
-		read_csv = csv.reader(csv_file, delimiter=',')
-		for line in read_csv:
-			stock_ids.append(line[1])
-			stock_names.append(line[0])
-	except:
-		print 'failed'
 
 for name in stock_ids:
 	try:
@@ -71,10 +63,10 @@ for name in stock_ids:
 		print 'sth went wrong during parsing text.', e
 
 	print 'Done', stock_ids.index(name)*100/len(stock_ids),'%'
-	time.sleep(0.2)
+  	time.sleep(0.1)
 
 	if not skip:
 		with open('indicators.csv', 'ab') as indicators:
 			writer = csv.writer(indicators, delimiter=";")
 			#writer.writerow("name; 1t; 1m; 3m; 6m; 1r; 3r; cz; cwk; cebitda; kapitalizacja")
-			writer.writerow([stock_names[stock_ids.index(name)], t1, m1, m3, m6, r1, r3, cz, cwk, cebitda, kapitalizacja])
+			writer.writerow([stock_names[stock_ids.index(name)], name, t1, m1, m3, m6, r1, r3, cz, cwk, cebitda, kapitalizacja])

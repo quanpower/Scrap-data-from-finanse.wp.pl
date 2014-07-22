@@ -5,8 +5,8 @@ from finanse_wp import *
 nameAr = []
 codeAr = []
 
-with open('stocks.csv', 'r') as csvfile:
-    reader = csv.reader(csvfile, delimiter=',')
+with open('indicators.csv', 'r') as csvfile:
+    reader = csv.reader(csvfile, delimiter=';')
     for row in reader:
     	nameAr.append(row[0])
     	codeAr.append(row[1])
