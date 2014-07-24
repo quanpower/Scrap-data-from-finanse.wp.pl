@@ -1,8 +1,10 @@
 ''' 
 Program logic.
 Drawing a chart.
-link do XML'a z nazwami : http://finanse.wp.pl/isin,PLOPTTC00011,stocks.xml
+link do XML'a z nazwami : http://finanse.wp.pl/isin,PLOPTTC00011,stocks.
+Code needs a lot of work - it's just made to work.
 '''
+
 from xml.dom import minidom
 import urllib2
 import time

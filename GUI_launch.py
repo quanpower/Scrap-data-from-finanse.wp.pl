@@ -1,3 +1,4 @@
+'''Code needs a lot of work - it's just made to work.'''
 import Tkinter as tk
 import csv
 from finanse_wp import *
