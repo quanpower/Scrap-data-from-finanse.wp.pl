@@ -34,9 +34,10 @@ def turnoverAlert(stock, crit_value):
 	print 'Last turnover', last_turnover
 	print 'Average turnover', av_turnover
 	if last_turnover > crit_turnover:
-		print 'Detected big movement!', stock
+		percent_change = int(((last_turnover - av_turnover)/av_turnover) * 100)
+		print 'Detected big movement!', stock, percent_change, '%'
 		with open('turnover_check.txt', 'ab') as turnover_file:
-			turnover_file.write(stock + '\n')
+			turnover_file.write(stock + ' ' + str(percent_change) + '%\n')
 	else:
 		print 'No big movement detected.'
 
